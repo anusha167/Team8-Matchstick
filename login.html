@@ -15,7 +15,8 @@
             padding: 60px 0; /* space above and below */
             box-sizing: border-box;
         }
-        .wrapper 
+        /* This centers whatever is in its container */
+        .wrapper
         {
             display: flex;
             justify-content: center;
@@ -35,9 +36,11 @@
         }
         .white-box button 
         {
+            width: 100px;
+            height: 40px;
             margin-top: 10px;
             padding: 10px 15px;
-            background-color: orange;
+            background-color: darkorange;
             color: white;
             border: none;
             border-radius: 4px;
@@ -45,7 +48,12 @@
         }
         .white-box button:hover 
         {
-            background-color: darkorange;
+            background-color: rgb(236, 75, 0);
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px; /* optional spacing */
         }
     </style>
 </head>
@@ -53,46 +61,18 @@
     <div class = "wrapper">
         <div class = "white-box">
             <p style="color: #F54C00">Matchstick</p>
+            <form action="http://localhost:3000/register" method="POST">
+                <label for="username"><p>Username:</p></label>
+                <input type="text" id="username" name="username" placeholder="Enter your username" required>
+
+                <br><label for="password"><p>Password:</p></label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+
+                <div class="button-container">
+                    <button class="submit-button">Submit</button>
+                </div>
+            </form>
         </div>
     </div>
 </body>
-<!-- CODE FOR ENTERING USERNAME AND PASSWORD -->
-<!-- <head> 
-    <title>HTML Login Form</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-
-<body>
-    <div class="main">
-        <h1>Matchstick</h1>
-        <h3>Please login with your UCSD account</h3>
-
-        <form action="">
-            <label for="first">
-                Username:
-            </label>
-            <input type="text" id="first" name="first" 
-                placeholder="Enter your Username" required>
-
-            <label for="password">
-                Password:
-            </label>
-            <input type="password" id="password" name="password" 
-                placeholder="Enter your Password" required>
-
-            <div class="wrap">
-                <button type="submit">
-                    Submit
-                </button>
-            </div>
-        </form>
-        
-        <p>Not registered?
-            <a href="#" style="text-decoration: none;">
-                Create an account
-            </a>
-        </p>
-    </div>
-</body> -->
-
 </html>
