@@ -8,7 +8,9 @@ const mysql = require('mysql2');
 // sets up bcrypt (for security)
 const bcrypt = require('bcrypt');
 // parses json data from html requests
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
+// sets up session management
+const session = require('express-session');
 
 // define server behavior
 const app = express();
@@ -17,6 +19,13 @@ app.use(express.json());
 // parse URL-encoded data, allows for arrays
 app.use(bodyParser.urlencoded({extended: true}));
 
+// session middleware
+app.use(session({
+  // encrypt session ID cookie so cookie can't be tampered with
+  secret: 'matchstick123',
+  resave: false,
+  saveUninitialized: true
+}))
 // connect to mySQL
 const db = mysql.createConnection({
   host: 'localhost',
@@ -57,3 +66,46 @@ app.post('/register', async (req, res) => {
     }
   );
 });
+
+// login to existing user
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+
+  // look for usernames
+  db.query('SELECT * FROM users WHERE username = ?', [username], (err, results) => {
+    if(err)
+    {
+      throw err;
+    }
+    // user isn't found
+    if(results.length == 0)
+    {
+      return res.send('User not found');
+    }
+
+    const user = results[0];
+    // compares password and looks for match
+    bcrypt.compare(password, user.password_hash, (err, match) => {
+      if(match) 
+      {
+        req.session.user = { id: user.id, username: user.username };
+        res.send('Login successful');
+      }
+      else
+      {
+        res.send('Incorrect password');
+      }
+    });
+  });
+});
+
+app.get('/logout', (req, res) => 
+{
+  req.session.destroy(err => {
+    if(err)
+    {
+      throw err;
+    }
+    res.redirect('/login');
+  })
+})
