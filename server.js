@@ -16,6 +16,8 @@ const session = require('express-session');
 const app = express();
 // parses incoming JSON data
 app.use(express.json());
+const path = require('path');
+app.use(express.static(path.join(__dirname, 'public')));
 // parse URL-encoded data, allows for arrays
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -44,6 +46,36 @@ db.connect(err => {
   if(err)
     throw err;
   console.log('Connect to MySQL');
+});
+
+// serve login page (route)
+app.get('/login', (req, res) =>
+{
+  // joins these two paths
+  res.sendFile(path.join(__dirname, 'public', 'login.html'))
+});
+
+// serves dashboard page (route)
+app.get('/dashboard', (req, res) =>
+{
+  // redirects to login page if not logged in
+  if(!req.session.user)
+  {
+    return res.redirect('/login');
+  }
+  res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
+});
+
+// serves logout (route)
+app.get('/logout', (req, res) => 
+{
+  req.session.destroy(err => {
+    if(err)
+    {
+      throw err;
+    }
+    res.redirect('/login');
+  });
 });
 
 // handle form submission (MAKE SURE TO ADD TO <FORM> AS ACTION TYPE)
@@ -89,7 +121,8 @@ app.post('/login', (req, res) => {
       if(match) 
       {
         req.session.user = { id: user.id, username: user.username };
-        res.send('Login successful');
+        // go to dashboard upon successful login
+        res.redirect('/dashboard');
       }
       else
       {
@@ -99,13 +132,3 @@ app.post('/login', (req, res) => {
   });
 });
 
-app.get('/logout', (req, res) => 
-{
-  req.session.destroy(err => {
-    if(err)
-    {
-      throw err;
-    }
-    res.redirect('/login');
-  })
-})
