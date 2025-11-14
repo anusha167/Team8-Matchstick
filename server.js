@@ -1,5 +1,6 @@
 
 // PURPOSE: this file tells Node.js to look for and manage requests, connects to database in MySQL, and secures data
+// NOTES FOR TEAMMATES: This is probably where all the backend will be, so please be very careful in what you remove/add
 
 // sets up Express.js (server-side web framework)
 const express = require('express');
@@ -48,6 +49,11 @@ db.connect(err => {
   console.log('Connect to MySQL');
 });
 
+app.get('/', (req, res) => 
+{
+  res.redirect('/login');
+});
+
 // serve login page (route)
 app.get('/login', (req, res) =>
 {
@@ -94,7 +100,9 @@ app.post('/register', async (req, res) => {
     (err, result) => {
       if(err)
         throw err;
-      res.send('User registered');
+
+      // redirect to login
+      res.redirect('/login?registered=true');
     }
   );
 });
@@ -126,7 +134,7 @@ app.post('/login', (req, res) => {
       }
       else
       {
-        res.send('Incorrect password');
+        res.redirect('/login?password=false');
       }
     });
   });
