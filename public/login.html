@@ -55,6 +55,12 @@
             justify-content: center;
             margin-top: 10px; /* optional spacing */
         }
+        .error
+        {
+            color: red;
+            font-weight: bold;
+            margin-top: 15px;
+        }
     </style>
 </head>
 <body>
@@ -73,7 +79,26 @@
                     <button class="submit-button">Log in</button>
                 </div>
             </form>
+
+            <!-- error message placeholder -->
+            <p id="error-message" class="error"></p>
         </div>
     </div>
+
+    <!-- script for error-message -->
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const error = params.get('error');
+
+        // displays error message when login is unsuccessful
+        if(error == 'user_not_found')
+        {
+            document.getElementById('error-message').textContent = 'User does not exist';
+        }
+        else if(error == 'invalid_password')
+        {
+            document.getElementById('error-message').textContent = 'Incorrect password';
+        }
+    </script>
 </body>
 </html>

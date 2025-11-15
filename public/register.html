@@ -90,6 +90,7 @@
         const params = new URLSearchParams(window.location.search);
         const error = params.get('error');
 
+        // displays error message if username is already taken
         if(error == 'username_taken')
         {
             document.getElementById('error-message').textContent = 'Username already taken';

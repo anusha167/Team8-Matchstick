@@ -39,7 +39,7 @@ const db = mysql.createConnection({
 
 // looks for requests
 app.listen(3000, () => {
-  console.log('Server running on https://localhost:3000');
+  console.log('Server running on http://localhost:3000');
 });
 
 // throws error if MySQL fails to connect
@@ -147,7 +147,7 @@ app.post('/login', (req, res) => {
     // user isn't found
     if(results.length == 0)
     {
-      return res.send('User not found');
+      return res.redirect('/login?error=user_not_found');
     }
 
     const user = results[0];
@@ -161,7 +161,7 @@ app.post('/login', (req, res) => {
       }
       else
       {
-        res.redirect('/login?password=false');
+        return res.redirect('/login?error=invalid_password');
       }
     });
   });
