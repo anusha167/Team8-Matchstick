@@ -50,10 +50,17 @@
         {
             background-color: rgb(236, 75, 0);
         }
-        .button-container {
+        .button-container 
+        {
             display: flex;
             justify-content: center;
             margin-top: 10px; /* optional spacing */
+        }
+        .error 
+        {
+            color: red;
+            font-weight: bold;
+            margin-top: 15px;
         }
     </style>
 </head>
@@ -72,7 +79,21 @@
                     <button class="submit-button">Register</button>
                 </div>
             </form>
+            
+            <!-- error message placeholder -->
+            <p id="error-message" class="error"></p>
         </div>
     </div>
+
+    <script>
+        // check query string for error
+        const params = new URLSearchParams(window.location.search);
+        const error = params.get('error');
+
+        if(error == 'username_taken')
+        {
+            document.getElementById('error-message').textContent = 'Username already taken';
+        }
+    </script>
 </body>
 </html>

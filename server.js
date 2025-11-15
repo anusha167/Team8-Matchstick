@@ -56,6 +56,7 @@ app.get('/', (req, res) =>
 
 // serve register page (route)
 app.get('/register', (req, res) => {
+  // could use ejs but I don't want to keep downloading stuff
   res.sendFile(path.join(__dirname, 'public', 'register.html'));
 });
 
