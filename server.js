@@ -54,6 +54,11 @@ app.get('/', (req, res) =>
   res.redirect('/login');
 });
 
+// serve register page (route)
+app.get('/register', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'register.html'));
+});
+
 // serve login page (route)
 app.get('/login', (req, res) =>
 {
@@ -89,20 +94,41 @@ app.post('/register', async (req, res) => {
   // form sends data correctly
   console.log(req.body);
 
+  // contains data submitted from form
   const{username, password} = req.body;
   // hides/hashes password from user view (bcrypt)
   const password_hash = await bcrypt.hash(password, 10);
 
   db.query(
-    // insert into users table created in MySQL database
-    'INSERT INTO users (username, password_hash) VALUES (?, ?)',
-    [username, password_hash],
-    (err, result) => {
+    // if username already exists
+    'SELECT * FROM users WHERE username = ?',
+    [username],
+    (err, rows) => 
+    {
       if(err)
+      {
         throw err;
+      }
+      if(rows.length > 0)
+      {
+        return res.redirect('/register?error=username_taken');
+      }
 
-      // redirect to login
-      res.redirect('/login?registered=true');
+      // otherwise insert new user
+      db.query(
+        // insert into users table created in MySQL database
+        'INSERT INTO users (username, password_hash) VALUES (?, ?)',
+        [username, password_hash],
+        (err, result) => 
+        {
+          if(err)
+          {
+            throw err;
+          }
+          // redirect to login
+          res.redirect('/login?registered=true');
+        }
+      );
     }
   );
 });
