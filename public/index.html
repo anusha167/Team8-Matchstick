@@ -12,6 +12,7 @@
             font-family: 'Montserrat', sans-serif;
             min-height: 100vh;
             display: flex;
+            flex-direction: column; /* stacks all elements on website vertically */
             justify-content: center;
             align-items: center;
             padding: 60px 0; /* space above and below */
@@ -28,7 +29,7 @@
         .white-box 
         {
             background-color: white;
-            width: 400px;
+            width: 500px;
             height: 1000px;
             padding: 60px 20px;
             border: 1px solid #ccc;
@@ -39,14 +40,14 @@
         .white-box button 
         {
             width: 400px;
-            height: 40px;
+            height: 50px;
             margin-top: 10px;
             padding: 10px 15px;
             background-color: rgb(255, 94, 0);
             color: white;
             font-family: 'Montserrat';
             border: none;
-            border-radius: 4px;
+            border-radius: 16px;
             cursor: pointer;
         }
         .white-box button:hover 
@@ -61,18 +62,18 @@
         }
         .features 
         {
-            list-style: none;          /* remove default bullets */
-            padding: 0;
+            list-style: none; /* remove default bullets */
+            padding-left: 100px;
         }
         .features li 
         {
-            display: flex;             /* align icon + text */
-            align-items: center;       /* vertical centering */
-            margin: 8px 0;             /* spacing between items */
+            display: flex; /* align icon + text */
+            align-items: center; /* vertical centering */
+            margin: 8px 0; /* spacing between items */
         }
         .features img 
         {
-            margin-right: 10px;        /* space between icon and text */
+            margin-right: 10px; /* space between icon and text */
         }
 
     </style>
@@ -80,10 +81,10 @@
 <body>
     <div class = "wrapper">
         <div class = "white-box">
-            <img src="images/welcome_icon.png" alt="logo" width="100px" height="100px">
+            <img src="images/welcome_icon.png" alt="logo" width="100px" height="100px" style="border-radius: 16px;">
             <p style="color: #F54C00">Matchstick</p>
             <p style="color: gray">Connect. Study. Succeed.</p>
-            <img src="images/study_background.jpg" alt="study background" width="400px" height="250px">
+            <img src="images/study_background.jpg" alt="study background" width="400px" height="250px" style="border-radius: 16px;">
             <br>
             <br>
             <a href="login.html">
@@ -96,11 +97,14 @@
             <br>
             <br>
             <ul class="features">
-                <li><img src="images/flame_bullet.png" alt="" width="25" height="25"> Find study partners instantly</li>
-                <li><img src="images/flame_bullet.png" alt="" width="25" height="25"> Match by class and time</li>
-                <li><img src="images/flame_bullet.png" alt="" width="25" height="25"> Earn flames for every study session</li>
+                <li><img src="images/flame_bullet.png" alt="" width="25px" height="25px"> Find study partners instantly</li>
+                <li><img src="images/flame_bullet.png" alt="" width="25px" height="25px"> Match by class and time</li>
+                <li><img src="images/flame_bullet.png" alt="" width="25px" height="25px"> Earn flames for every study session</li>
+                <li><img src="images/flame_bullet.png" alt="" width="25px" height="25px"> Unlock premium features</li>
             </ul>
         </div>
+        <br>
     </div>
+    <p style="text-align: center; color: white;">By signing in, you agree to our Terms of Service and Privacy Policy</p>
 </body>
 </html>
