@@ -1,21 +1,106 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="icon" type="image/png" href="images/matchstick.png">
-        <link rel="icon" href="/favicon.ico?v=100">
-        <title>Matchstick</title>
-    </head>
-    <body>
-        <h1>This is my Website!</h1>
-        <p>Welcome to my website</p>
-        <a href="login.html">Log in to your account</a>
-        <a href="register.html">Sign up</a>
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="images/matchstick.png?v=10">
+    <title>Matchstick</title>
+    <style>
+        body 
+        {
+            margin: 0;
+            background: radial-gradient(circle, rgba(245, 76, 0, 1) 0%, rgba(238, 46, 0, 1) 50%, rgba(255, 101, 0, 1) 100%);
+            font-family: 'Montserrat', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 0; /* space above and below */
+            box-sizing: border-box;
+        }
+        /* This centers whatever is in its container */
+        .wrapper
+        {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+        .white-box 
+        {
+            background-color: white;
+            width: 400px;
+            height: 1000px;
+            padding: 60px 20px;
+            border: 1px solid #ccc;
+            box-shadow: 4px 4px 12px rgba(0,0,0,0.1);
+            text-align: center;
+            border-radius: 16px;
+        }
+        .white-box button 
+        {
+            width: 400px;
+            height: 40px;
+            margin-top: 10px;
+            padding: 10px 15px;
+            background-color: rgb(255, 94, 0);
+            color: white;
+            font-family: 'Montserrat';
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .white-box button:hover 
+        {
+            background-color: rgb(236, 75, 0);
+        }
+        .button-container 
+        {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px; /* optional spacing */
+        }
+        .features 
+        {
+            list-style: none;          /* remove default bullets */
+            padding: 0;
+        }
+        .features li 
+        {
+            display: flex;             /* align icon + text */
+            align-items: center;       /* vertical centering */
+            margin: 8px 0;             /* spacing between items */
+        }
+        .features img 
+        {
+            margin-right: 10px;        /* space between icon and text */
+        }
 
-        <footer>
-            <p>Made by: WIC &hearts;</p>
-        </footer>
-    </body>
+    </style>
+</head>
+<body>
+    <div class = "wrapper">
+        <div class = "white-box">
+            <img src="images/welcome_icon.png" alt="logo" width="100px" height="100px">
+            <p style="color: #F54C00">Matchstick</p>
+            <p style="color: gray">Connect. Study. Succeed.</p>
+            <img src="images/study_background.jpg" alt="study background" width="400px" height="250px">
+            <br>
+            <br>
+            <a href="login.html">
+                <button>Log in to your account</button>
+            </a>
+            <br>
+            <a href="register.html">
+                <button>Sign up for an account</button>
+            </a>
+            <br>
+            <br>
+            <ul class="features">
+                <li><img src="images/flame_bullet.png" alt="" width="25" height="25"> Find study partners instantly</li>
+                <li><img src="images/flame_bullet.png" alt="" width="25" height="25"> Match by class and time</li>
+                <li><img src="images/flame_bullet.png" alt="" width="25" height="25"> Earn flames for every study session</li>
+            </ul>
+        </div>
+    </div>
+</body>
 </html>
-
