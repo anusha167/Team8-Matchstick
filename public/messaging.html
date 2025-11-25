@@ -55,6 +55,118 @@
         {
             background-color: #f5f5f5;
         }
+        .user-info 
+        {
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .logo-with-icon 
+        {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0px;
+        }
+
+        .logo-icon 
+        {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            font-size: 24px; 
+            font-weight: 700;
+            color: #F54C00;   
+            margin-bottom: 25px;
+        }
+
+        /* Flames box stacked */
+        .flames-box 
+        {
+            background-color: #ff702d17;
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        .flames-label 
+        {
+            font-size: 14px;
+            color: #555;
+            margin: 0;
+        }
+
+        .flames-count 
+        {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin: 5px 0 0 0; /* small gap above count */
+        }
+
+        /* Divider line */
+        .sidebar-divider 
+        {
+            border: none;
+            border-top: 1px solid #ddd;
+            margin: 10px 0 20px 0;
+        }
+
+
+
+        /* Sidebar section */
+        .menu-icon 
+        {
+            width: 25px;
+            height: 25px;
+            object-fit: contain;
+            margin-right: 12px;
+        }
+
+        .sidenav 
+        {
+            height: 100%;
+            width: 240px;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #ffffff;
+            overflow-x: hidden;
+            padding-top: 20px;
+            border-right: 1.3px solid rgba(206, 206, 206, 0.781); /* vertical bar on the right side */
+            box-sizing: border-box;
+        }
+
+        .sidenav a 
+        {
+            display: flex;
+            align-items: center;        /* vertical centering */
+            justify-content: flex-start;/* aligns content to the left */
+            height: 40px;
+            padding: 3px 20px 3px 50px;
+            font-size: 17px;
+            color: #818181;
+            text-decoration: none;
+            margin: 6px 0;
+            border-radius: 15px;
+        }
+
+        .sidenav a:hover 
+        {
+            background-color: #b3b3b317;  /* box background when toggled */
+        }
+
+
+        .sidenav a.active 
+        {
+            background-color: #333;  /* box background when toggled */
+            color: white;            /* text color when toggled */
+        }
         .title
         {
             font-weight: bold;
@@ -64,6 +176,49 @@
     </style>
 </head>
 <body>
+    <div class="sidenav">
+        <!-- User info section -->
+        <div class="user-info">
+            <div class="logo-with-icon">
+                <img src="images/flame_bullet.png" alt="Flame icon" class="logo-icon">
+                <h1 class="logo">Matchstick</h1>
+            </div>
+        <!-- Flame section -->
+            <div class="flames-box">
+                <p class="flames-label">Your Flames:</p>
+                <p class="flames-count">125 🔥</p>
+            </div>
+        </div>
+
+        <hr class="sidebar-divider">
+
+        <!-- Menu items -->
+        <a href="#Dashboard">
+            <img src="images/dashboard.png" alt="Dashboard icon" class="menu-icon">
+            <span>Dashboard</span>
+        </a>
+
+        <a href="#Find Match">
+            <img src="images/flame_bullet.png" alt="Flame icon" class="menu-icon">
+            <span>Find Match</span>
+        </a>
+
+        <a href="#Messages">
+            <img src="images/messages.png" alt="Messages icon" class="menu-icon">
+            <span>Messages</span>
+        </a>
+
+        <a href="#Study Space">
+            <img src="images/study space.png" alt="Study icon" class="menu-icon">
+            <span>Study Space</span>
+        </a>
+
+        <a href="#Settings">
+            <img src="images/settings.png" alt="Settings icon" class="menu-icon">
+            <span>Settings</span>
+        </a>
+
+    </div>
     <div class="messaging-page">
         <div class="message-bar">
             <div class="title">
