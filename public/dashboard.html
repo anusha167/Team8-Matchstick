@@ -1,17 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="icon" type="image/png" href="images/matchstick_icon_128x125.png">
-        <title>Matchstick</title>
-    </head>
-    <body>
-        <h1>Dashboard!</h1>
-        <p>Welcome to your dashboard</p>
-    </body>
-    <footer>
-        <p>Made by: WIC &hearts;</p>
-    </footer>
-</html>
+<head>
+    <style>
+        body {
+            font-family: "Roboto Condensed", sans-serif;
+            font-weight: 400; 
+            font-style: normal;
+            font-optical-sizing: auto;
+        }
 
+        .glowing-gold {
+            font-size: 40px;
+            color: #fff; /* Base text color, the glow will come from the shadow */
+            text-align: center;
+            font-family: sans-serif;
+            /* Apply the animation */
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                /* Start with a subtle glow */
+                text-shadow: 0 0 10px #ffcc00, 0 0 20px #ffcc00, 0 0 30px #e6b800;
+            }
+            to {
+                /* Increase the intensity for the "glow" effect */
+                text-shadow: 0 0 20px #ffcc00, 0 0 30px #ffcc00, 0 0 40px #e6b800, 0 0 50px #e6b800, 0 0 60px #e6b800;
+            }
+        }
+
+    </style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <title>MatchStick</title>
+</head>
+
+<body>
+    <h1>MatchStick</h1>
+    <h2> Welcome Back <b>Jayani</b>!</h2>
+    <h3 class="glowing-gold">Here's your study activity queen...</h3>
+    <!-- In 4 different containers, 2 by 2-->
+    <p>24 total Study Jams</p>
+    <p>125 flames earned</p>
+    <p>7 day study streak</p>
+    <p>5 active classes</p>
+    <!-- In 1 new big container + cards--> 
+    <h3>Upcomming Study Sessions</h3>
+    <p>Your confirmed and pending matches:</p>
+    <p>Terri @ 3pm</p>
+    <p>Isha @ 4pm</p>
+    <p>Minjoo @ 7pm</p>
+    <p>Kaitlin @ 7pm</p>
+    <h2>Quick Actions</h2>
+    <!-- In 1 new big container, identical to before-->
+     <!--Buttons-->
+    <p>Find Study Match</p>
+    <p>Schedule Session</p>
+    <!-- In 1 new big container, identical to before-->
+    <h2>Recent Achievements</h2>
+    <!-- In 3 different containers, horizontally-->
+    <p>Week Warrior</p>
+    <p>Social Butterfly</p>
+    <p>Flame Collector</p>
+</body>
+<footer>
+</footer>
+</html>
