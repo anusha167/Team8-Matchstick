@@ -2,10 +2,10 @@
 <html>
 <head>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/png" href="images/matchstick.png">
+    <link rel="icon" type="image/png" href="images/matchstick_icon_128x125.png">
     <title>Matchstick</title>
     <style>
-        body 
+        body
         {
             margin: 0;
             background: radial-gradient(circle, rgba(245, 76, 0, 1) 0%, rgba(238, 46, 0, 1) 50%, rgba(255, 101, 0, 1) 100%);
@@ -25,7 +25,7 @@
             align-items: center;
             width: 100%;
         }
-        .white-box 
+        .white-box
         {
             background-color: white;
             width: 400px;
@@ -36,30 +36,45 @@
             text-align: center;
             border-radius: 16px;
         }
-        .white-box button 
+        .white-box button
         {
-            width: 400px;
-            height: 40px;
+            font-size: 16px;
+            width: 300px;
+            height: 50px;
             margin-top: 10px;
             padding: 10px 15px;
             background-color: rgb(255, 94, 0);
-            font-family: 'Montserrat';
             color: white;
+            font-family: 'Montserrat';
             border: none;
-            border-radius: 4px;
+            border-radius: 8px;
             cursor: pointer;
         }
-        .white-box button:hover 
+        .white-box button:hover
         {
             background-color: rgb(236, 75, 0);
         }
-        .button-container 
+        .button-container
         {
             display: flex;
             justify-content: center;
             margin-top: 10px; /* optional spacing */
         }
-        .error 
+        .white-box input
+        {
+            width: 75%;          /* makes them span the full width of the white-box */
+            height: 50px;         /* increases vertical size */
+            padding: 10px 15px;  
+            font-size: 16px;      
+            border: 1px solid #ccc;
+            border-radius: 8px;   /* rounded corners */
+            box-sizing: border-box; /* ensures padding doesn’t overflow */
+            margin-bottom: 15px;  /* spacing between fields */
+            display: block;
+            margin: 0 auto 15px auto;
+            text-align: center;
+        }
+        .error
         {
             color: red;
             font-weight: bold;
@@ -70,28 +85,34 @@
 <body>
     <div class = "wrapper">
         <div class = "white-box">
-            <p style="color: #F54C00">Matchstick</p>
+            <img src="images/welcome_icon.png" alt="logo" width="100px" height="100px" style="border-radius: 16px;">
+            <p style="color: #F54C00; font-weight: bold;">Matchstick</p>
+            <p style="color: gray">Connect. Study. Succeed.</p>
+            <img src="images/study_background.jpg" alt="study background" width="400px" height="250px" style="border-radius: 16px;">
+            <br>
+            <br>
+            <u>Register your account</u>
             <form action="http://localhost:3000/register" method="POST">
                 <label for="username"><p>Username:</p></label>
                 <input type="text" id="username" name="username" placeholder="Enter your username" required>
-
-                <br><label for="password"><p>Password:</p></label>
+                <label for="password"><p>Password:</p></label>
                 <input type="password" id="password" name="password" placeholder="Enter your password" required>
-
                 <div class="button-container">
                     <button class="submit-button">Register</button>
                 </div>
             </form>
-            
+           
             <!-- error message placeholder -->
             <p id="error-message" class="error"></p>
         </div>
     </div>
 
+
     <script>
         // check query string for error
         const params = new URLSearchParams(window.location.search);
         const error = params.get('error');
+
 
         // displays error message if username is already taken
         if(error == 'username_taken')
@@ -101,3 +122,4 @@
     </script>
 </body>
 </html>
+
