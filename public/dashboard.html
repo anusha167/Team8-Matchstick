@@ -1,72 +1,245 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="images/matchstick_icon_128x125.png">
+    <title>Matchstick - Dashboard</title>
     <style>
-        body {
-            font-family: "Roboto Condensed", sans-serif;
-            font-weight: 400; 
-            font-style: normal;
-            font-optical-sizing: auto;
+        /* has variables */
+        :root{ 
+            --bg: #f4f7fb;
+            --card: #ffffff;
+            --muted: #6b7280;
+            --accent-blue: #2b6ef6;
+            --accent-orange: #ff6b35;
+            --accent-green: #10b981;
+            --accent-purple: #8b5cf6;
+            --glass: rgba(99,102,241,0.06);
         }
 
-        .glowing-gold {
-            font-size: 40px;
-            color: #fff; /* Base text color, the glow will come from the shadow */
-            text-align: center;
-            font-family: sans-serif;
-            /* Apply the animation */
-            animation: glow 2s ease-in-out infinite alternate;
+        *{box-sizing:border-box}
+        body{
+            margin:0;
+            font-family: 'Montserrat', sans-serif;
+            background:var(--bg);
+            color:#111827;
+            -webkit-font-smoothing:antialiased;
         }
 
-        @keyframes glow {
-            from {
-                /* Start with a subtle glow */
-                text-shadow: 0 0 10px #ffcc00, 0 0 20px #ffcc00, 0 0 30px #e6b800;
-            }
-            to {
-                /* Increase the intensity for the "glow" effect */
-                text-shadow: 0 0 20px #ffcc00, 0 0 30px #ffcc00, 0 0 40px #e6b800, 0 0 50px #e6b800, 0 0 60px #e6b800;
-            }
-        }
+        .wrap{max-width:1100px;margin:32px auto;padding:24px}
+
+        .header{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+        .greeting{margin:0}
+        .greeting h1{font-size:28px;margin:0 0 6px}
+        .greeting p{margin:0;color:var(--muted)}
+
+        /* Stats grid */
+        .stats-grid{display:grid;grid-template-columns:1fr;gap:16px;margin-top:20px}
+        @media(min-width:640px){.stats-grid{grid-template-columns:repeat(2,1fr)}}
+
+        .card{background:var(--card);border-radius:12px;padding:18px;box-shadow:0 6px 18px rgba(17,24,39,0.06);display:flex;align-items:center;justify-content:space-between}
+        .card .left{display:flex;flex-direction:column}
+        .card .label{color:var(--muted);font-size:14px}
+        .card .value{font-weight:700;font-size:20px;margin-top:6px}
+
+        .icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;font-weight:700}
+        .icon.circle{border-radius:50%}
+        .icon-blue{background:linear-gradient(135deg, rgba(43,110,246,0.12), rgba(43,110,246,0.06));color:var(--accent-blue)}
+        .icon-orange{background:linear-gradient(135deg, rgba(255,107,53,0.08), rgba(255,107,53,0.04));color:var(--accent-orange)}
+        .icon-green{background:linear-gradient(135deg, rgba(16,185,129,0.08), rgba(16,185,129,0.04));color:var(--accent-green)}
+        .icon-purple{background:linear-gradient(135deg, rgba(139,92,246,0.08), rgba(139,92,246,0.04));color:var(--accent-purple)}
+
+        /* Main area below stats */
+        .main{display:grid;grid-template-columns:1fr;gap:16px;margin-top:22px}
+        @media(min-width:900px){.main{grid-template-columns:2fr 1fr}}
+
+        .large-card{background:var(--card);border-radius:12px;padding:18px;box-shadow:0 6px 18px rgba(17,24,39,0.06)}
+        .section-title{font-weight:600;margin:0 0 8px}
+        .section-sub{margin:0;color:var(--muted);font-size:14px}
+
+        .session-list{margin-top:12px;display:flex;flex-direction:column;gap:12px}
+        .session{display:flex;align-items:center;justify-content:space-between;padding:12px;border-radius:10px;border:1px solid rgba(15,23,42,0.03)}
+        .session .meta{display:flex;align-items:center;gap:12px}
+        .avatar{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--accent-orange);color:white;font-weight:600}
+        .session .name{font-weight:600}
+        .tags{display:flex;gap:8px;align-items:center}
+        .tag{background:rgba(15,23,42,0.03);padding:4px 8px;border-radius:8px;font-size:12px;color:var(--muted)}
+        .status{background:#dcfce7;color: #065f46;padding:4px 8px;border-radius:999px;font-size:12px}
+
+        .session .right{display:flex;flex-direction:column;align-items:flex-end;gap:6px;color:var(--muted);font-size:13px}
+
+        /* Small widgets on the right column */
+        .small-cards{display:flex;flex-direction:column;gap:12px}
+        .small-card{background:var(--card);padding:12px;border-radius:10px;box-shadow:0 6px 14px rgba(17,24,39,0.04)}
+        .small-card .title{font-weight:600}
+        .small-card .hint{color:var(--muted);font-size:13px}
+
+        /* Quick action buttons */
+        .actions{display:flex;flex-direction:column;gap:12px;margin-top:12px}
+        .btn{display:flex;align-items:center;gap:10px;justify-content:center;padding:12px 16px;border-radius:10px;font-weight:600;border:1px solid rgba(15,23,42,0.06);cursor:pointer}
+        .btn .ico{font-size:18px}
+        .btn-primary{background:linear-gradient(90deg,#ff7a18,#ff3d00);color:white;border:0;box-shadow:0 6px 18px rgba(255,93,41,0.14)}
+        .btn-secondary{background:transparent;border:1px solid rgba(15,23,42,0.06);color:var(--muted)}
+
+        /* Achievements list */
+        .ach-list{display:flex;flex-direction:column;gap:12px;margin-top:12px}
+        .achievement{display:flex;gap:12px;align-items:center;padding:14px;border-radius:10px}
+        .ach-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;font-weight:700}
+        .ach-body{display:flex;flex-direction:column}
+        .ach-title{font-weight:700}
+        .ach-desc{color:var(--muted);font-size:13px;margin-top:4px}
+        .ach-1{background:linear-gradient(180deg, rgba(255,239,230,1), rgba(255,247,240,1));}
+        .ach-2{background:linear-gradient(180deg, rgba(235,244,255,1), rgba(245,250,255,1));}
+        .ach-3{background:linear-gradient(180deg, rgba(250,243,255,1), rgba(255,250,255,1));}
+        .ach-icon.orange{background:#ff7a18}
+        .ach-icon.blue{background:#3b82f6}
+        .ach-icon.purple{background:#a78bfa}
 
     </style>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <title>MatchStick</title>
 </head>
-
 <body>
-    <h1>MatchStick</h1>
-    <h2> Welcome Back <b>Jayani</b>!</h2>
-    <h3 class="glowing-gold">Here's your study activity queen...</h3>
-    <!-- In 4 different containers, 2 by 2-->
-    <p>24 total Study Jams</p>
-    <p>125 flames earned</p>
-    <p>7 day study streak</p>
-    <p>5 active classes</p>
-    <!-- In 1 new big container + cards--> 
-    <h3>Upcomming Study Sessions</h3>
-    <p>Your confirmed and pending matches:</p>
-    <p>Terri @ 3pm</p>
-    <p>Isha @ 4pm</p>
-    <p>Minjoo @ 7pm</p>
-    <p>Kaitlin @ 7pm</p>
-    <h2>Quick Actions</h2>
-    <!-- In 1 new big container, identical to before-->
-     <!--Buttons-->
-    <p>Find Study Match</p>
-    <p>Schedule Session</p>
-    <!-- In 1 new big container, identical to before-->
-    <h2>Recent Achievements</h2>
-    <!-- In 3 different containers, horizontally-->
-    <p>Week Warrior</p>
-    <p>Social Butterfly</p>
-    <p>Flame Collector</p>
+    <div class="wrap">
+        <div class="header">
+            <div class="greeting">
+                <h1>Welcome back, Sora! <span style="font-size:20px">👋</span></h1>
+                <p>Here's your study activity today</p>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="card">
+                <div class="left">
+                    <div class="label">Total Study Jams</div>
+                    <div class="value">24</div>
+                </div>
+                <div class="icon icon-blue">👥</div>
+            </div>
+
+            <div class="card">
+                <div class="left">
+                    <div class="label">Flames Earned</div>
+                    <div class="value">125</div>
+                </div>
+                <div class="icon icon-orange">🔥</div>
+            </div>
+
+            <div class="card">
+                <div class="left">
+                    <div class="label">Study Streak</div>
+                    <div class="value">7 days</div>
+                </div>
+                <div class="icon icon-green">📈</div>
+            </div>
+
+            <div class="card">
+                <div class="left">
+                    <div class="label">Active Classes</div>
+                    <div class="value">4</div>
+                </div>
+                <div class="icon icon-purple">📚</div>
+            </div>
+        </div>
+
+        <div class="main">
+            <div class="large-card">
+                <h3 class="section-title">Upcoming Study Sessions</h3>
+                <p class="section-sub">Your confirmed and pending study matches</p>
+
+                <div class="session-list">
+                    <div class="session">
+                        <div class="meta">
+                            <div class="avatar">IV</div>
+                            <div>
+                                <div class="name">Isha V</div>
+                                <div style="display:flex;gap:8px;margin-top:6px">
+                                    <div class="tag">CSE 150A</div>
+                                    <div class="status">Confirmed</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="right">
+                            <div>Today, 3:00 PM</div>
+                            <div>Geisel Library</div>
+                        </div>
+                    </div>
+
+                    <div class="session">
+                        <div class="meta">
+                            <div class="avatar" style="background:var(--accent-purple)">TT</div>
+                            <div>
+                                <div class="name">Terri T</div>
+                                <div style="display:flex;gap:8px;margin-top:6px">
+                                    <div class="tag">MATH 96</div>
+                                    <div class="status" style="background:#fff7ed;color:#9a3412">Pending</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="right">
+                            <div>Today, 5:00 PM</div>
+                            <div>Price Center</div>
+                        </div>
+                    </div>
+
+                    <div class="session">
+                        <div class="meta">
+                            <div class="avatar" style="background:var(--accent-green)">MO</div>
+                            <div>
+                                <div class="name">Minjoo O</div>
+                                <div style="display:flex;gap:8px;margin-top:6px">
+                                    <div class="tag">CSE 142</div>
+                                    <div class="status">Confirmed</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="right">
+                            <div>Today, 7:00 PM</div>
+                            <div>Library Study Room</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="small-cards">
+                    <div class="small-card">
+                        <div class="title">Quick Actions</div>
+                        <div class="actions">
+                            <a href="findMatch.html" class="btn btn-primary" style="text-decoration: none;"><span class="ico">🔥</span>Find Study Match</a> 
+                            <button class="btn btn-secondary"><span class="ico">📅</span>Schedule Session</button>
+                        </div>
+                    </div>
+
+                    <div class="small-card">
+                        <div class="title">Recent Achievements</div>
+                        <div class="ach-list">
+                            <div class="achievement ach-1">
+                                <div class="ach-icon orange">🔥</div>
+                                <div class="ach-body">
+                                    <div class="ach-title">Week Warrior</div>
+                                    <div class="ach-desc">7-day study streak!</div>
+                                </div>
+                            </div>
+
+                            <div class="achievement ach-2">
+                                <div class="ach-icon blue">⭐</div>
+                                <div class="ach-body">
+                                    <div class="ach-title">Social Butterfly</div>
+                                    <div class="ach-desc">10 unique study partners</div>
+                                </div>
+                            </div>
+
+                            <div class="achievement ach-3">
+                                <div class="ach-icon purple">🏆</div>
+                                <div class="ach-body">
+                                    <div class="ach-title">Flame Collector</div>
+                                    <div class="ach-desc">100+ flames earned</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
 </body>
-<footer>
-</footer>
 </html>
