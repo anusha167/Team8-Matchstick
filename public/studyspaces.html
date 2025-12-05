@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Spaces</title>
+    <link rel="stylesheet" href="style.css">
+
+
+<style>
+    body {
+        margin: 0;
+        background: #f6f6f6;
+        font-family: Arial, sans-serif;
+    }
+
+    .header {
+        background: #ddd;
+        padding: 20px 30px;
+        border-bottom: 1px solid #ddd;
+    }
+    .title {
+        font-size: 28px;
+        margin: 0;
+    }
+    .subtitle {
+        color: black;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    .top-controls {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 20px 30px;
+        background: #ddd;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .search {
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: 6px;
+        border: 1px solid #bbb;
+    }
+
+    .filters-row {
+        display: flex;
+        gap: 10px;
+    }
+
+    .filter-btn {
+        padding: 8px 14px;
+        background: #eee;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    .filter-btn.active {
+        background:#ff7e00;
+        color:#fff;
+        border-color:transparent;
+    }
+
+    .cards-container {
+        padding: 30px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+        gap: 25px;
+    }
+
+    .card {
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .card img {
+        width: 100%;
+        height: 170px;
+        object-fit: cover;
+    }
+
+    .card-content {
+        padding: 15px 20px;
+        display: grid;
+        grid-template-columns: 1fr 160px;
+        gap: 12px;
+        align-items: start;
+        min-height: 120px;
+    }
+
+    .card-content .top {
+        grid-column: 1 / -1;
+        margin-bottom: 6px;
+    }
+
+    .labels-column,
+    .values-column {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .labels-column { color:#666; font-size:14px; align-items:flex-start; }
+    .values-column { align-items:flex-end; text-align:right; color:#222; font-weight:700; }
+
+    .info-label { display:inline-flex; align-items:center; gap:8px; }
+
+    .info-value { color:inherit; font-weight:inherit; }
+
+    .noise-badge {
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 12px;
+        display: inline-block;
+        font-weight: 600;
+    }
+
+    .tag-quiet {
+        background: #e6f2ff;
+        color: #0b66d6;
+        border: 1px solid rgba(11,102,214,0.15);
+    }
+
+    .tag-moderate {
+        background: #fff9e6; 
+        color: #b58100;
+        border: 1px solid rgba(181,129,0,0.12);
+    }
+
+    .tag-collab {
+        background: #ffecec; 
+        color: #c0392b;
+        border: 1px solid rgba(192,57,43,0.12);
+    }
+
+    .tags-row {
+        grid-column: 1 / -1;
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+        margin-top: 10px;
+        padding: 0 0 10px 0;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 10px;
+        background: #fff;
+        border-radius: 999px;
+        font-size: 13px;
+        border: 1px solid #e6e6e6;
+        color: #333;
+        white-space: nowrap;
+    }
+
+    .directions-btn {
+        display: block;
+        width: 100%;
+        margin: 0;
+        padding: 12px 16px;
+        background: #ff7e00;
+        color: white;
+        border: none;
+        border-radius: 0 0 10px 10px;
+        cursor: pointer;
+        font-weight: bold;
+        text-decoration: none;
+        text-align: center;
+    }
+    .top-controls {
+        display: flex;
+        flex-direction: column;   /* stack items vertically */
+        gap: 12px;
+        padding: 20px 30px;
+        background: #ddd;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .filters-row {
+        display: flex;
+        gap: 10px;
+    }
+
+    /* keep filter button style */
+    .filter-btn {
+        padding: 8px 14px;
+        background: #eee;
+        border: 1px solid white;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+    .card-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-bottom: 12px;
+    }
+</style>
+
+</head>
+<body>
+
+    <!-- HEADER -->
+    <div class="header">
+        <h2 class="title">Study Spaces</h2>
+        <div class="subtitle">Find the perfect spot to study on campus</div>
+    </div>
+
+    <!-- SEARCH & FILTERS -->
+    <div class="top-controls">
+        <input class="search" id="searchInput" placeholder="Search study spaces..." />
+
+        <div class="filters-row">
+            <button class="filter-btn" data-filter="all">All Spaces</button>
+            <button class="filter-btn" data-filter="Quiet">🤫 Quiet</button>
+            <button class="filter-btn" data-filter="Moderate">💬 Moderate</button>
+            <button class="filter-btn" data-filter="Collaborative">📢 Collaborative</button>
+        </div>
+    </div>
+
+    <!-- CARDS CONTAINER -->
+    <div class="cards-container" id="cards"></div>
+
+<script>
+const studySpaces = [
+    {
+        name: "Geisel Library – Silent Study Floor",
+        location: "Geisel – 2nd Floor",
+        image: "./images/gl2.png",
+        occupancy: "89/150",
+        hours: "7:00 AM – 12:00 AM",
+        noise: "Quiet",
+        tags: ["🛜 WiFi", "⚡Power"],
+        directions: "https://www.google.com/maps/dir/32.8810049,-117.2381701/Geisel+Library,+9701+Hopkins+Dr,+La+Jolla,+CA+92093/@32.8813244,-117.2405952,17z/data=!3m1!4b1!4m18!1m7!3m6!1s0x80dc07853cb13045:0x2d2f19f483aaaace!2sGeisel+Library!8m2!3d32.881178!4d-117.2375923!16zL20vMGYyOXpw!4m9!1m1!4e1!1m5!1m1!1s0x80dc07853cb13045:0x2d2f19f483aaaace!2m2!1d-117.2375923!2d32.881178!3e2?entry=ttu&g_ep=EgoyMDI1MTExNy4wIKXMDSoASAFQAw%3D%3D"
+    },
+    {
+        name: "CSE Basement",
+        location: "Computer Science Building – Basement",
+        image: "./images/cseb.jpg",
+        occupancy: "45/80",
+        hours: "24/7",
+        noise: "Moderate",
+        tags: ["🛜 WiFi", "⚡Power", "📝 Whiteboards", "Group Rooms"],
+        directions: "https://www.google.com/maps/dir/32.8810049,-117.2381701/Computer+Science+and+Engineering+Building,+3235+Voigt+Dr,+La+Jolla,+CA+92093/@32.88118,-117.2372829,18z/data=!3m1!4b1!4m10!4m9!1m1!4e1!1m5!1m1!1s0x80dc06c3409a5d5f:0xa7dc3be7597d4d47!2m2!1d-117.2335235!2d32.8818006!3e2?entry=ttu&g_ep=EgoyMDI1MTExNy4wIKXMDSoASAFQAw%3D%3D"
+    },
+    {
+        name: "Price Center Study Rooms",
+        location: "Price Center – 2nd Floor",
+        image: "./images/pricecenter.jpg",
+        occupancy: "32/60",
+        hours: "7:00 AM – 11:00 PM",
+        noise: "Moderate",
+        tags: ["🛜 WiFi", "⚡Power", "☕ Coffee", "Group Rooms"],
+        directions: "https://www.google.com/maps/dir/32.8810049,-117.2381701/Price+Center+at+UCSD,+Price+Center,+San+Diego,+CA/@32.8815819,-117.2381352,17z/data=!3m1!5s0x80dc06c4740ccfc9:0x3132a4b07ec421f8!4m10!4m9!1m1!4e1!1m5!1m1!1s0x80dc07b594b387e7:0xd13e7ea7346fbde0!2m2!1d-117.2362155!2d32.879722!3e2?entry=ttu&g_ep=EgoyMDI1MTExNy4wIKXMDSoASAFQAw%3D%3D"
+    },
+    {
+        name: "Geisel Library - Collaboration Zone",
+        location: "Geisel Library - 1st Floor",
+        image: "./images/gl1.webp",
+        occupancy: "67/100",
+        hours: "7:00 AM - 12:00 AM",
+        noise: "Collaborative",
+        tags: ["🛜 WiFi", "⚡Power", "☕ Coffee", "📝 Whiteboard", "Group Rooms"],
+        directions: "https://www.google.com/maps/dir/32.8810049,-117.2381701/Geisel+Library,+Hopkins+Drive,+La+Jolla,+CA/@32.8803634,-117.2397731,17z/data=!3m1!5s0x80dc06c4740ccfc9:0x3132a4b07ec421f8!4m10!4m9!1m1!4e1!1m5!1m1!1s0x80dc07853cb13045:0x2d2f19f483aaaace!2m2!1d-117.2375923!2d32.881178!3e2?entry=ttu&g_ep=EgoyMDI1MTExNy4wIKXMDSoASAFQAw%3D%3D"
+    },
+    {
+        name: "Sally T. WongAvery Library",
+        location: "Sally T. WongAvery Library - 1st Floor",
+        image: "./images/swal.png",
+        occupancy: "28/70",
+        hours: "8:00 AM - 10:00 PM",
+        noise: "Quiet",
+        tags: ["🛜 WiFi", "⚡Power", "☕ Coffee", "📝 Whiteboard", "Group Rooms"],
+        directions: "https://www.google.com/maps/dir/32.8810049,-117.2381701/Sally+T.+WongAvery+Library,+Biomedical+Library+Building,+Biomedical+Sciences+Way,+San+Diego,+CA/@32.8813244,-117.2405952,17z/data=!3m1!5s0x80dc06c4740ccfc9:0x3132a4b07ec421f8!4m10!4m9!1m1!4e1!1m5!1m1!1s0x80dc070c7a306fab:0xabd28bd7e2f70fc0!2m2!1d-117.2369703!2d32.8751015!3e2?entry=ttu&g_ep=EgoyMDI1MTExNy4wIKXMDSoASAFQAw%3D%3D"
+    },
+    {
+        name: "Student Services Center",
+        location: "SSC - 3rd Floor",
+        image: "./images/ss.png",
+        occupancy: "15/40",
+        hours: "8:00 AM - 8:00 PM",
+        noise: "Moderate",
+        tags: ["🛜 WiFi", "⚡Power", "☕ Coffee", "📝 Whiteboard", "Group Rooms"],
+        directions: "https://www.google.com/maps/dir/32.8810049,-117.2381701/Student+Services+Center,+Russell+Lane,+San+Diego,+CA/@32.8780532,-117.2403189,17z/data=!3m1!5s0x80dc06c4740ccfc9:0x3132a4b07ec421f8!4m10!4m9!1m1!4e1!1m5!1m1!1s0x80dc06c467b5168d:0xb16999a26be49f64!2m2!1d-117.2359254!2d32.8785149!3e2?entry=ttu&g_ep=EgoyMDI1MTExNy4wIKXMDSoASAFQAw%3D%3D"
+    }
+];
+
+    /* Populate cards */
+    function renderCards(list = studySpaces) {
+        const container = document.getElementById("cards");
+        container.innerHTML = "";
+
+        list.forEach(space => {
+            const card = document.createElement("div");
+            card.className = "card";
+
+            const noiseClass = space.noise && space.noise.toLowerCase().includes("quiet") ? "tag-quiet"
+                              : space.noise && space.noise.toLowerCase().includes("moderate") ? "tag-moderate"
+                              : "tag-collab";
+
+            card.innerHTML = `
+                <img src="${space.image}" />
+                <div class="card-content">
+                    <div class="top">
+                        <div class="location-title">${space.name}</div>
+                        <div class="subinfo">${space.location}</div>
+                    </div>
+
+                    <div class="labels-column">
+                        <div class="info-row"><div class="info-label">👥 Capacity</div></div>
+                        <div class="info-row"><div class="info-label">⏰ Hours</div></div>
+                        <div class="info-row"><div class="info-label">🔊 Noise Level</div></div>
+                    </div>
+
+                    <div class="values-column">
+                        <div class="info-value">${space.occupancy || "—"}</div>
+                        <div class="info-value">${space.hours || "—"}</div>
+                        <div class="info-value"><span class="noise-badge ${noiseClass}">${space.noise || "—"}</span></div>
+                    </div>
+
+                    <div class="tags-row">
+                        ${(space.tags || []).map(t => `<div class="tag">${t}</div>`).join("")}
+                    </div>
+                </div>
+                <button class="directions-btn" data-href="${space.directions || '#'}">Get Directions</button>
+             `;
+
+            container.appendChild(card);
+
+            const btn = card.querySelector('.directions-btn');
+            if (btn) {
+                btn.addEventListener('click', () => {
+                    const url = btn.dataset.href;
+                    if (url && url !== '#') window.open(url, '_blank', 'noopener,noreferrer');
+                });
+            }
+        });
+    }
+
+    function getFilteredSpaces() {
+        const q = document.getElementById("searchInput").value.toLowerCase();
+        const active = document.querySelector(".filter-btn.active");
+        const filter = active ? active.dataset.filter : "all";
+
+        return studySpaces.filter(s => {
+            const matchesText = !q || s.name.toLowerCase().includes(q) || s.location.toLowerCase().includes(q);
+            const matchesNoise = filter === "all" || (s.noise && s.noise.toLowerCase().includes(filter.toLowerCase()));
+            return matchesText && matchesNoise;
+        });
+    }
+
+    function setupFilters() {
+        const buttons = document.querySelectorAll(".filter-btn");
+        buttons.forEach(btn => {
+            btn.addEventListener("click", () => {
+                buttons.forEach(b => b.classList.remove("active"));
+                btn.classList.add("active");
+                renderCards(getFilteredSpaces());
+            });
+        });
+
+        // set "All Spaces" active by default
+        const allBtn = document.querySelector('.filter-btn[data-filter="all"]');
+        if (allBtn) allBtn.classList.add("active");
+    }
+
+    document.getElementById("searchInput").addEventListener("input", () => {
+        renderCards(getFilteredSpaces());
+    });
+
+    setupFilters();
+    renderCards();
+
+    
+    </script>
+
+</body>
+</html>
