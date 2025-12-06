@@ -164,3 +164,13 @@ app.post('/login', async (req, res) => {
   }
 });
 
+app.get('/logout', (req, res) => {
+  req.session.destroy(err => {
+    if (err) {
+      return res.redirect('/dashboard');
+    }
+    res.clearCookie('connect.sid'); // clear session cookie
+    res.redirect('/login');         // send back to login page
+  });
+});
+

@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <title>Pomodoro</title>
+  <style>
+    body 
+    {
+        font-family: 'Montserrat', sans-serif;
+        margin: 0;
+        background: #f4f7fb;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* Header */
+    .header 
+    {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start; /* align items to the left */
+        gap: 12px;                   /* space between bars and title */
+        padding: 16px 24px;
+        background: #ffffff;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        width: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+    }
+
+    .greeting h1 
+    {
+        margin: 0;
+        font-size: 24px;
+        font-weight: 700;
+        color: #111827;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .greeting p 
+    {
+        margin: 0;
+        color: #6b7280;
+        font-size: 14px;
+    }
+
+    /* User info section */
+    .user-info 
+    {
+        padding: 20px;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+
+    .logo-with-icon 
+    {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0px;
+    }
+
+    .logo-icon 
+    {
+        width: 50px;
+        height: 50px;
+        object-fit: contain;
+        margin-bottom: 20px;
+    }
+
+    .logo 
+    {
+        font-size: 24px; 
+        font-weight: 700;
+        color: #F54C00;   
+        margin-bottom: 25px;
+    }
+
+    /* Flames box stacked */
+    .flames-box 
+    {
+        background-color: #ff702d17;
+        padding: 12px;
+        border-radius: 8px;
+    }
+
+    .flames-label 
+    {
+        font-size: 14px;
+        color: #555;
+        margin: 0;
+    }
+
+    .flames-count 
+    {
+        font-size: 20px;
+        font-weight: 600;
+        color: #333;
+        margin: 5px 0 0 0; /* small gap above count */
+    }
+
+    /* Divider line */
+    .sidebar-divider 
+    {
+        border: none;
+        border-top: 1px solid #ddd;
+        margin: 10px 0 20px 0;
+    }
+
+
+
+    /* Sidebar section */
+    .menu-icon 
+    {
+        width: 25px;
+        height: 25px;
+        object-fit: contain;
+        margin-right: 12px;
+    }
+
+    .sidenav 
+    {
+        height: 100vh;
+        width: 240px;
+        position: fixed;
+        top: 0;
+        left: -240px; /* hidden off-screen initially */
+        background-color: #ffffff;
+        overflow-y: auto;
+        border-right: 1.3px solid rgba(206, 206, 206, 0.781);
+        box-sizing: border-box;
+        transition: left 0.3s ease; /* smooth sliding */
+        z-index: 2000;
+    }
+
+    .sidenav.collapsed 
+    {
+        width: 60px; /* shrink to icon-only view */
+    }
+
+    .sidenav a 
+    {
+        display: flex;
+        align-items: center;        /* vertical centering */
+        justify-content: flex-start;/* aligns content to the left */
+        height: 40px;
+        padding: 3px 20px 3px 50px;
+        font-size: 17px;
+        color: #818181;
+        text-decoration: none;
+        margin: 6px 0;
+        border-radius: 15px;
+    }
+
+    .sidenav a:hover 
+    {
+        background-color: #b3b3b317;  /* box background when toggled */
+    }
+
+
+    .sidenav.active 
+    {
+        left: 0;        
+    }
+
+    /* shift main content when sidebar is visible */
+    .main,
+    .header,
+    .top-controls,
+    .cards-container 
+    {
+        transition: margin-left 0.3s ease;
+    }
+
+    .sidenav.active ~ .main,
+    .sidenav.active ~ .header,
+    .sidenav.active ~ .top-controls,
+    .sidenav.active ~ .cards-container
+    {
+        margin-left: 240px;
+    }
+
+    body.sidebar-open::after 
+    {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.3); /* semi-transparent gray */
+        z-index: 1500; /* above content, below sidebar */
+    }
+
+    @media screen and (max-height: 450px) 
+    {
+        .sidenav {padding-top: 15px;}
+        .sidenav a {font-size: 15px;}
+    }
+    /* Timer */
+    .timer-container 
+    {
+        text-align: center;
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(17,24,39,0.06);
+        margin-top: 100px; /* push below fixed header */
+    }
+
+    #timer 
+    {
+        font-size: 48px;
+        margin-bottom: 20px;
+    }
+
+    .controls button 
+    {
+        margin: 0 10px;
+        padding: 10px 20px;
+        font-weight: 600;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    #startBtn { background: rgb(255, 94, 0); color: white; }
+    #startBtn:hover { background-color: rgb(236, 75, 0); }
+    #pauseBtn { background: rgb(255, 94, 0); color: white; }
+    #pauseBtn:hover { background-color: rgb(236, 75, 0); }
+    #resetBtn { background: rgb(255, 94, 0); color: white; }
+    #resetBtn:hover { background-color: rgb(236, 75, 0); }
+
+  </style>
+</head>
+<body>
+    <div class="sidenav">
+        <!-- User info section -->
+        <div class="user-info">
+            <div class="logo-with-icon">
+            <img src="images/flame_bullet.png" alt="Flame icon" class="logo-icon">
+            <h1 class="logo">Matchstick</h1>
+            </div>
+        <!-- Flame section -->
+            <div class="flames-box">
+            <p class="flames-label">Your Flames:</p>
+            <p class="flames-count">125 🔥</p>
+            </div>
+        </div>
+
+        <hr class="sidebar-divider">
+
+        <!-- Menu items -->
+        <a href="dashboard.html">
+            <img src="images/match.png" alt="Dashboard icon" class="menu-icon">
+            <span>Dashboard</span>
+        </a>
+
+        <a href="studyspaces.html">
+            <img src="images/study space.png" alt="Study icon" class="menu-icon">
+            <span>Study Spaces</span>
+        </a>
+
+        <a href="findMatch.html">
+            <img src="images/dashboard.png" alt="Study icon" class="menu-icon">
+            <span>Find Match</span>
+        </a>
+
+        <a href="pomodoro.html">
+            <img src="images/timer.png" alt="Study icon" class="menu-icon">
+            <span>Pomodoro</span>
+        </a>
+
+        <a href="/logout">
+            <img src="images/logout.png" alt="Exit icon" class="menu-icon">
+            <span>Log out</span>
+        </a>
+
+  </div>
+  <!-- Header -->
+  <div class="header">
+    <button id="toggleSidebar" class="sidebar-toggle">☰</button>
+    <div class="greeting">
+      <h1>Pomodoro <span style="font-size:20px">👋</span></h1>
+      <p>Stay focused and motivated</p>
+    </div>
+  </div>
+
+  <!-- Timer -->
+  <div class="timer-container">
+    <h1 id="timer">20:00</h1>
+    <div class="controls">
+      <button id="startBtn">Start</button>
+      <button id="pauseBtn">Pause</button>
+      <button id="resetBtn">Reset</button>
+    </div>
+  </div>
+
+  <script>
+    // open sidebar
+    const toggleBtn = document.getElementById("toggleSidebar");
+    const sidebar = document.querySelector(".sidenav");
+
+    toggleBtn.addEventListener("click", () => {
+        sidebar.classList.toggle("active");
+        document.body.classList.toggle("sidebar-open"); // optional overlay effect
+    });
+
+    document.addEventListener("click", (e) => {
+        if (sidebar.classList.contains("active") &&
+            !sidebar.contains(e.target) &&
+            e.target !== toggleBtn) {
+        sidebar.classList.remove("active");
+        document.body.classList.remove("sidebar-open");
+        }
+    });
+
+    // start, pause, reset button
+    let timerDisplay = document.getElementById("timer");
+    let startBtn = document.getElementById("startBtn");
+    let pauseBtn = document.getElementById("pauseBtn");
+    let resetBtn = document.getElementById("resetBtn");
+
+    let seconds = 20 * 60; // 20 minutes in seconds
+    let interval = null;
+
+    function updateTimer() {
+      let mins = Math.floor(seconds / 60);
+      let secs = seconds % 60;
+      timerDisplay.textContent =
+        (mins < 10 ? "0" : "") + mins + ":" + (secs < 10 ? "0" : "") + secs;
+    }
+
+    startBtn.addEventListener("click", () => {
+      if (interval) return;
+      interval = setInterval(() => {
+        if (seconds > 0) {
+          seconds--;
+          updateTimer();
+        } else {
+          clearInterval(interval);
+          interval = null;
+          alert("Time's up! 🎉");
+        }
+      }, 1000);
+    });
+
+    pauseBtn.addEventListener("click", () => {
+      clearInterval(interval);
+      interval = null;
+    });
+
+    resetBtn.addEventListener("click", () => {
+      clearInterval(interval);
+      interval = null;
+      seconds = 20 * 60;
+      updateTimer();
+    });
+
+    updateTimer();
+  </script>
+</body>
+</html>

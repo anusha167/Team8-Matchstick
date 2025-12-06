@@ -4,124 +4,138 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-body {
-  font-family: "Montserrat", sans-serif;
-  margin: 0;
-}
+  body {
+    font-family: "Montserrat", sans-serif;
+    margin: 0;
+  }
 
-/* User info section */
-.user-info {
-  padding: 20px;
-  text-align: center;
-  margin-bottom: 15px;
-}
+  /* User info section */
+  .user-info 
+  {
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 15px;
+  }
 
-.logo-with-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0px;
-}
+  .logo-with-icon 
+  {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0px;
+  }
 
-.logo-icon {
-  width: 50px;
-  height: 50px;
-  object-fit: contain;
-  margin-bottom: 20px;
-}
+    .logo-icon {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    margin-bottom: 20px;
+    }
 
-.logo {
-  font-size: 24px; 
-  font-weight: 700;
-  color: #F54C00;   
-  margin-bottom: 25px;
-}
+    .logo {
+    font-size: 24px; 
+    font-weight: 700;
+    color: #F54C00;   
+    margin-bottom: 25px;
+    }
 
-/* Flames box stacked */
-.flames-box {
-  background-color: #ff702d17;
-  padding: 12px;
-  border-radius: 8px;
-}
+    /* Flames box stacked */
+    .flames-box {
+    background-color: #ff702d17;
+    padding: 12px;
+    border-radius: 8px;
+    }
 
-.flames-label {
-  font-size: 14px;
-  color: #555;
-  margin: 0;
-}
+    .flames-label {
+    font-size: 14px;
+    color: #555;
+    margin: 0;
+    }
 
-.flames-count {
-  font-size: 20px;
-  font-weight: 600;
-  color: #333;
-  margin: 5px 0 0 0; /* small gap above count */
-}
+    .flames-count {
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+    margin: 5px 0 0 0; /* small gap above count */
+    }
 
-/* Divider line */
-.sidebar-divider {
-  border: none;
-  border-top: 1px solid #ddd;
-  margin: 10px 0 20px 0;
-}
-
-
-
-/* Sidebar section */
-.menu-icon {
-  width: 25px;
-  height: 25px;
-  object-fit: contain;
-  margin-right: 12px;
-}
-
-.sidenav {
-  height: 100%;
-  width: 240px;
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  background-color: #ffffff;
-  overflow-x: hidden;
-  padding-top: 20px;
-  border-right: 1.3px solid rgba(206, 206, 206, 0.781); /* vertical bar on the right side */
-  box-sizing: border-box;
-  
-}
-
-.sidenav a {
-  display: flex;
-  align-items: center;        /* vertical centering */
-  justify-content: flex-start;/* aligns content to the left */
-  height: 40px;
-  padding: 3px 20px 3px 50px;
-  font-size: 17px;
-  color: #818181;
-  text-decoration: none;
-  margin: 6px 0;
-  border-radius: 15px;
-}
-
-.sidenav a:hover {
-  background-color: #b3b3b317;  /* box background when toggled */
-}
+    /* Divider line */
+    .sidebar-divider {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 10px 0 20px 0;
+    }
 
 
-.sidenav a.active {
-  background-color: #333;  /* box background when toggled */
-  color: white;            /* text color when toggled */
-}
 
-.main {
-  margin-left: 260px; /* Same as the width of the sidenav */
-  font-size: 19px; /* Increased text to enable scrolling */
-  padding: 0px 10px;
-}
+    /* Sidebar section */
+    .menu-icon {
+    width: 25px;
+    height: 25px;
+    object-fit: contain;
+    margin-right: 12px;
+    }
 
-@media screen and (max-height: 450px) {
-  .sidenav {padding-top: 15px;}
-  .sidenav a {font-size: 15px;}
-}
+    .sidenav {
+        height: 100vh;
+        width: 240px;
+        position: fixed;
+        top: 0;
+        left: -240px; /* hidden off-screen initially */
+        background-color: #ffffff;
+        overflow-y: auto;
+        border-right: 1.3px solid rgba(206, 206, 206, 0.781);
+        box-sizing: border-box;
+        transition: left 0.3s ease; /* smooth sliding */
+        z-index: 2000;
+    }
+
+    .sidenav.collapsed {
+        width: 60px; /* shrink to icon-only view */
+    }
+
+    .sidenav a {
+    display: flex;
+    align-items: center;        /* vertical centering */
+    justify-content: flex-start;/* aligns content to the left */
+    height: 40px;
+    padding: 3px 20px 3px 50px;
+    font-size: 17px;
+    color: #818181;
+    text-decoration: none;
+    margin: 6px 0;
+    border-radius: 15px;
+    }
+
+    .sidenav a:hover {
+        background-color: #b3b3b317;  /* box background when toggled */
+    }
+
+
+    .sidenav.active {
+        left: 0;        
+    }
+
+    /* shift main content when sidebar is visible */
+    .main,
+    .header,
+    .top-controls,
+    .cards-container {
+        transition: margin-left 0.3s ease;
+    }
+
+    .sidenav.active ~ .main,
+    .sidenav.active ~ .header,
+    .sidenav.active ~ .top-controls,
+    .sidenav.active ~ .cards-container {
+        margin-left: 240px;
+    }
+
+  @media screen and (max-height: 450px) 
+  {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 15px;}
+  }
 </style>
 </head>
 <body>
@@ -152,6 +166,16 @@ body {
   <a href="studyspaces.html">
     <img src="images/study space.png" alt="Study icon" class="menu-icon">
     <span>Study Space</span>
+  </a>
+
+  <a href="pomodoro.html">
+    <img src="images/study space.png" alt="Study icon" class="menu-icon">
+    <span>Pomodoro</span>
+  </a>
+
+  <a href="/logout" class="btn">
+    <img src="images/study space.png" alt="Study icon" class="menu-icon">
+    <span>Log out</span>
   </a>
 
 </div>

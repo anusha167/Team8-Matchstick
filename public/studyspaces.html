@@ -6,8 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Study Spaces</title>
     <link rel="stylesheet" href="style.css">
-
-
+    <link rel="icon" type="image/png" href="images/matchstick_icon_128x125.png">
 <style>
     body {
         margin: 0;
@@ -80,17 +79,17 @@
     }
 
     .sidenav {
-    height: 100vh;
-    width: 240px;
-    position: fixed;
-    top: 0;
-    left: -240px; /* hidden off-screen initially */
-    background-color: #ffffff;
-    overflow-y: auto;
-    border-right: 1.3px solid rgba(206, 206, 206, 0.781);
-    box-sizing: border-box;
-    transition: left 0.3s ease; /* smooth sliding */
-    z-index: 1000;
+        height: 100vh;
+        width: 240px;
+        position: fixed;
+        top: 0;
+        left: -240px; /* hidden off-screen initially */
+        background-color: #ffffff;
+        overflow-y: auto;
+        border-right: 1.3px solid rgba(206, 206, 206, 0.781);
+        box-sizing: border-box;
+        transition: left 0.3s ease; /* smooth sliding */
+        z-index: 1000;
     }
 
     .sidenav.collapsed {
@@ -111,7 +110,7 @@
     }
 
     .sidenav a:hover {
-    background-color: #b3b3b317;  /* box background when toggled */
+        background-color: #b3b3b317;  /* box background when toggled */
     }
 
 
@@ -124,14 +123,14 @@
     .header,
     .top-controls,
     .cards-container {
-    transition: margin-left 0.3s ease;
+        transition: margin-left 0.3s ease;
     }
 
     .sidenav.active ~ .main,
     .sidenav.active ~ .header,
     .sidenav.active ~ .top-controls,
     .sidenav.active ~ .cards-container {
-    margin-left: 240px;
+        margin-left: 240px;
     }
 
     .main {
@@ -373,13 +372,28 @@
 
         <!-- Menu items -->
         <a href="dashboard.html">
-            <img src="images/dashboard.png" alt="Dashboard icon" class="menu-icon">
+            <img src="images/match.png" alt="Dashboard icon" class="menu-icon">
             <span>Dashboard</span>
         </a>
 
         <a href="studyspaces.html">
             <img src="images/study space.png" alt="Study icon" class="menu-icon">
-            <span>Study Space</span>
+            <span>Study Spaces</span>
+        </a>
+
+        <a href="findMatch.html">
+            <img src="images/dashboard.png" alt="Study icon" class="menu-icon">
+            <span>Find Match</span>
+        </a>
+
+        <a href="pomodoro.html">
+            <img src="images/timer.png" alt="Study icon" class="menu-icon">
+            <span>Pomodoro</span>
+        </a>
+
+        <a href="/logout">
+            <img src="images/logout.png" alt="Exit icon" class="menu-icon">
+            <span>Log out</span>
         </a>
 
         </div>
